@@ -1,0 +1,25 @@
+# ============================================================
+#  VS Code REST Client — test your backend without a browser
+#  Install extension: "REST Client" by Huachao Mao
+#  Then click "Send Request" above each line
+# ============================================================
+
+### 1. Health check — make sure server is running
+GET http://localhost:5000/health
+
+###
+
+### 2. Dashboard stats — total hosts, online, offline, alerts
+GET http://localhost:5000/api/stats
+
+###
+
+### 3. All hosts with CPU, RAM, ping
+GET http://localhost:5000/api/hosts
+
+###
+
+### 4. Active alerts sorted newest first
+GET http://localhost:5000/api/alerts
+
+###

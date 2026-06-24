@@ -1,0 +1,64 @@
+/* ============================================================
+   StatCard styles
+   ============================================================ */
+
+.stat-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Colored left accent bar */
+.stat-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  border-radius: var(--radius-lg) 0 0 var(--radius-lg);
+}
+
+.stat-card--green::before  { background: var(--accent); }
+.stat-card--blue::before   { background: var(--blue); }
+.stat-card--red::before    { background: var(--red); }
+.stat-card--amber::before  { background: var(--amber); }
+
+.stat-card--clickable {
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.stat-card--clickable:hover {
+  border-color: #484f58;
+  background: var(--bg-raised);
+}
+
+.stat-value {
+  font-size: 36px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.stat-card--green .stat-value  { color: var(--accent); }
+.stat-card--blue .stat-value   { color: var(--blue); }
+.stat-card--red .stat-value    { color: var(--red); }
+.stat-card--amber .stat-value  { color: var(--amber); }
+
+.stat-label {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.stat-loading {
+  color: var(--text-dim);
+  font-size: 28px;
+}

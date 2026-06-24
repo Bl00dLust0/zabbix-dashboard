@@ -1,0 +1,99 @@
+# ============================================================
+#  docker-compose.yml
+#  Three containers: backend, frontend, nginx
+#
+#  Run:      docker compose up --build
+#  Run bg:   docker compose up -d --build
+#  Stop:     docker compose down
+#  Logs:     docker compose logs -f
+#  Rebuild:  docker compose up --build --force-recreate
+# ============================================================
+
+services:
+
+  # ── 1. Backend: Node.js API ────────────────────────────────
+  backend:
+    build:
+      context: ./backend            # folder with backend Dockerfile
+    container_name: zabbix-backend
+    image: zabbix-backend:latest
+
+    # Load Zabbix credentials from your .env file at runtime.
+    # The .env file is NEVER baked into the image — it's injected here.
+    env_file:
+      - ./backend/.env
+
+    # NOT exposed to your browser — only nginx can reach it
+    # via the internal zabbix-net network on port 5000
+    # Uncomment below only if you want to test the API directly:
+    # ports:
+    #   - "5000:5000"
+
+    networks:
+      - zabbix-net
+
+    restart: unless-stopped
+
+    # Simple health check — Docker will restart if this fails
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:5000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+
+  # ── 2. Frontend: React dev server ─────────────────────────
+  frontend:
+    build:
+      context: ./frontend           # folder with frontend Dockerfile
+    container_name: zabbix-frontend
+    image: zabbix-frontend:latest
+
+    # Also NOT exposed to your browser — nginx proxies to it
+    # nginx uses "http://frontend:3000" internally
+
+    networks:
+      - zabbix-net
+
+    restart: unless-stopped
+
+    # React makes API calls to /api/* — but in the container these
+    # need to go to the backend via nginx, not localhost.
+    # We override the CRA proxy by telling React the backend host:
+    environment:
+      - REACT_APP_API_URL=http://localhost/api
+
+
+  # ── 3. nginx: reverse proxy ────────────────────────────────
+  nginx:
+    image: nginx:alpine             # use official nginx image directly
+    container_name: zabbix-nginx   # no Dockerfile needed for nginx
+
+    # Mount our custom config into the nginx container
+    # Left side  = path on your Windows machine
+    # Right side = path inside the container
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+
+    # THIS is the only container with a public port.
+    # Browser → localhost:80 → nginx → backend or frontend
+    ports:
+      - "80:80"
+
+    # Start nginx only after backend and frontend are up
+    depends_on:
+      - backend
+      - frontend
+
+    networks:
+      - zabbix-net
+
+    restart: unless-stopped
+
+
+# ── Shared internal network ────────────────────────────────
+# All three containers can talk to each other by service name.
+# Nothing outside docker-compose can reach backend or frontend directly.
+networks:
+  zabbix-net:
+    driver: bridge

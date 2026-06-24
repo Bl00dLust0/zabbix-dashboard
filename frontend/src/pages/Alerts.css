@@ -1,0 +1,136 @@
+/* ============================================================
+   Alerts page styles
+   ============================================================ */
+
+/* Filter pills */
+.filter-bar {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.filter-pill {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 500;
+  padding: 5px 14px;
+  transition: all 0.12s;
+}
+
+.filter-pill:hover,
+.filter-pill.active {
+  background: var(--bg-raised);
+  color: var(--text-primary);
+  border-color: #484f58;
+}
+
+.filter-pill--disaster.active { border-color: var(--severity-5); color: var(--severity-5); }
+.filter-pill--high.active     { border-color: var(--severity-4); color: var(--severity-4); }
+.filter-pill--average.active  { border-color: var(--severity-3); color: var(--severity-3); }
+
+/* Alert rows */
+.alerts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.alert-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-left-width: 3px;
+  border-radius: var(--radius-md);
+  padding: 14px 18px;
+  transition: background 0.12s;
+}
+
+.alert-row:hover { background: var(--bg-raised); }
+
+/* Severity left-border colors */
+.sev-0 { border-left-color: var(--severity-0); }
+.sev-1 { border-left-color: var(--severity-1); }
+.sev-2 { border-left-color: var(--severity-2); }
+.sev-3 { border-left-color: var(--severity-3); }
+.sev-4 { border-left-color: var(--severity-4); }
+.sev-5 { border-left-color: var(--severity-5); }
+
+.alert-main {
+  flex: 1;
+  min-width: 0;
+}
+
+.alert-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.alert-host {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.alert-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.alert-time {
+  font-size: 12px;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.alert-ack {
+  font-size: 11px;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+/* Severity badge */
+.sev-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 20px;
+  background: var(--bg-raised);
+  white-space: nowrap;
+}
+
+.sev-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.sev-0 .sev-dot, .sev-badge.sev-0 .sev-dot { background: var(--severity-0); }
+.sev-1 .sev-dot, .sev-badge.sev-1 .sev-dot { background: var(--severity-1); }
+.sev-2 .sev-dot, .sev-badge.sev-2 .sev-dot { background: var(--severity-2); }
+.sev-3 .sev-dot, .sev-badge.sev-3 .sev-dot { background: var(--severity-3); }
+.sev-4 .sev-dot, .sev-badge.sev-4 .sev-dot { background: var(--severity-4); }
+.sev-5 .sev-dot, .sev-badge.sev-5 .sev-dot { background: var(--severity-5); }
+
+.sev-badge.sev-0 { color: var(--severity-0); }
+.sev-badge.sev-1 { color: var(--severity-1); }
+.sev-badge.sev-2 { color: var(--severity-2); }
+.sev-badge.sev-3 { color: var(--severity-3); }
+.sev-badge.sev-4 { color: var(--severity-4); }
+.sev-badge.sev-5 { color: var(--severity-5); }
